@@ -25,8 +25,7 @@ const SigninForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const { mutateAsync: signInAccount, isPending: isSignedIn } =
-    useSignInAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount();
   const form = useForm<z.infer<typeof SigninSchema>>({
     resolver: zodResolver(SigninSchema),
     defaultValues: {

@@ -21,17 +21,15 @@ import {
   useCreateUserAccount,
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutations";
-import { useContext } from "react";
 import { useUserContext } from "@/components/context/AuthContext";
 
 const SignupForm = () => {
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const { checkAuthUser } = useUserContext();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { mutateAsync: createUserAccount, isPending: isCreatingUser } =
     useCreateUserAccount();
-  const { mutateAsync: signInAccount, isPending: isSignedIn } =
-    useSignInAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount();
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
     defaultValues: {

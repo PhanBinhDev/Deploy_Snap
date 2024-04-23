@@ -1,11 +1,7 @@
 import { useUserContext } from "@/components/context/AuthContext";
 import { GridPostList, Loader } from "@/components/shared";
 import { Button } from "@/components/ui/button";
-import {
-  useGetCurrentUser,
-  useGetUserById,
-} from "@/lib/react-query/queriesAndMutations";
-import React from "react";
+import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
 import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
 import LikedPosts from "./LikedPosts";
 

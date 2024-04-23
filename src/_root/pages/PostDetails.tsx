@@ -39,7 +39,7 @@ const PostDetails = () => {
 
                 <div className="flex flex-col">
                   <p className="base-medium lg:body-bold text-light-1">
-                    {post.creator.name}
+                    {post?.creator.name}
                   </p>
                   <div className="flex-center gap-2 text-light-3">
                     <p className="subtitle-semibold lg:small-regular">
@@ -47,7 +47,7 @@ const PostDetails = () => {
                     </p>
                     -
                     <p className="subtitle-semibold lg:small-regular">
-                      {post.location}
+                      {post?.location}
                     </p>
                   </div>
                 </div>

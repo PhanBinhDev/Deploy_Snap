@@ -12,7 +12,7 @@ import {
   getRecentPosts,
   likePost,
   savePost,
-  deleteSavePost,
+  deleteSavedPost,
   getCurrentUser,
   getPostById,
   updatePost,
@@ -47,8 +47,7 @@ export const useCreatePost = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (post: INewPost) => createPost(post),
-    onSuccess: (args) => {
-      console.log("args", args);
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
       });
@@ -112,7 +111,7 @@ export const useSavePost = () => {
 export const useDeleteSavedPost = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (savedRecordId: string) => deleteSavePost(savedRecordId),
+    mutationFn: (savedRecordId: string) => deleteSavedPost(savedRecordId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
@@ -171,7 +170,7 @@ export const useGetPosts = () => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
     queryFn: getInfinitePosts,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage: any) => {
       if (lastPage && lastPage.documents.length === 0) return null;
       const lastId = lastPage?.documents[lastPage?.documents.length - 1].$id;
       return lastId;

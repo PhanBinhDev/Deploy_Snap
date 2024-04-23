@@ -1,6 +1,5 @@
 import { Models } from "appwrite";
 import moment from "moment";
-import React from "react";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../context/AuthContext";
 import PostStars from "./PostStars";

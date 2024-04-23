@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -188,52 +188,57 @@ export async function getRecentPosts() {
   }
 }
 
-export async function likePost(postId: string, likeArray: string[]) {
+export async function likePost(postId: string, likesArray: string[]) {
   try {
-    const updatePost = await databases.updateDocument(
+    const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
       postId,
       {
-        likes: likeArray,
+        likes: likesArray,
       }
     );
-    if (!updatePost) throw Error;
+
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function savePost(postId: string, userId: string) {
+// ============================== SAVE POST
+export async function savePost(userId: string, postId: string) {
   try {
-    const updatePost = await databases.createDocument(
+    const updatedPost = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.savesCollectionId,
       ID.unique(),
-
       {
         user: userId,
         post: postId,
       }
     );
-    if (!updatePost) throw Error;
+
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
   } catch (error) {
     console.log(error);
   }
 }
-
-export async function deleteSavePost(saveRecordId: string) {
+// ============================== DELETE SAVED POST
+export async function deleteSavedPost(savedRecordId: string) {
   try {
-    console.log(saveRecordId);
     const statusCode = await databases.deleteDocument(
       appwriteConfig.databaseId,
       appwriteConfig.savesCollectionId,
-      saveRecordId
+      savedRecordId
     );
-    // 662722d515ad61cd8617
+
     if (!statusCode) throw Error;
 
-    return { status: "OK" };
+    return { status: "Ok" };
   } catch (error) {
     console.log(error);
   }
@@ -322,6 +327,7 @@ export async function deletePost(postId: string, imageId: string) {
 
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
   const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
+
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
   }
@@ -334,6 +340,7 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
     );
 
     if (!posts) throw Error;
+
     return posts;
   } catch (error) {
     console.log(error);
